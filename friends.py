@@ -20,58 +20,11 @@ carrot = ["Carrot", "Onion", "Garlic", "Bean", "Lettuce", "chickpeas", "Radish",
 
 # grouping and data structuring
 messy_plants = cabbage + aubergine + celeriac + beetroot + peppers + mustard + melon + loofah + courgette + tomato + carrot
-all_plants = [set([item.capitalize for item in messy_plants])]
-print(messy_plants)
-print(all_plants)
-
-from fuzzywuzzy import fuzz
-import random
-
-def choose_a_bean(examplelist):
-    listoutput = []
-    for str1 in examplelist:
-        choices = [str1]
-        print(choices)
-        for str2 in examplelist:
-            partial_ratio = fuzz.partial_ratio(str1, str2)
-            print(partial_ratio)
-            if partial_ratio == 100:
-                choices.append(str2)
-        print(choices)
-        listoutput.append(random.choice(choices))
-        print(listoutput)
-    return listoutput
-
-from difflib import SequenceMatcher
-def choose_a_bean2(examplelist):
-    listoutput = []
-    examplelist = list(set(examplelist))
-    for str1 in examplelist:
-        choices = [str1]
-        for str2 in examplelist:
-            if str2 in choices:
-                examplelist.remove(str2)
-            else:
-                match = SequenceMatcher(None, str1, str2).find_longest_match(0, len(str1), 0, len(str2))
-                #overlap = str1[match.a:match.a + match.size]
-                #print(overlap)
-                if match.size > 2:
-                    userinput = input("conflate {str1} and {str2}? y/n")
-                    if userinput == "y":
-                        choices.append(str2)
-                        examplelist.remove(str2)
-                    elif userinput not in ["n", "y"]:
-                        raise Exception("sorry, input not recognised")
-        listoutput.append(random.choice(choices))
-    return list(set(listoutput))
-
-
-all_plants = cabbage + aubergine + celeriac + beetroot + peppers + mustard + melon + loofah + courgette + tomato + carrot
 neat_plants = []
-for item in all_plants:
+for item in messy_plants:
     neat_plants.append(item.capitalize())
 neat_plants = list(set(neat_plants))
-print(neat_plants)
+
 # implement when all the input stuff is fixed, delete above line: all_plants = [entry.casefold() for entry in all_plants]
 # all_plants should draw on user input in a file format such as .txt or .xml
 # plant_families = {family[0]:family for family in inputlist}
